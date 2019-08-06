@@ -1,0 +1,13 @@
+<view class="section">
+  <view class="section__title">{{activity.activityName}}</view>
+  <picker id="student1" bindchange="bindPickerChange" range="{{array}}">
+    <view class="picker" >
+      QQ
+    </view>
+  </picker>
+  <picker id="student2" bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
+    <view class="picker">
+      马诗琪
+    </view>
+  </picker>
+</view>
