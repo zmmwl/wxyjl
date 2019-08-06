@@ -121,7 +121,21 @@ Page({
       }
 
       if (this.data.displayNoPoll) {
-
+          var section = new Object()
+          section.option = null
+          section.id = null
+          section.name = "未选择"
+          section.pollArray = new Array()
+          for (var i = 0; i < this.data.clazz.students.length; i++){
+             if(!this.data.pollStudentMap.get( this.data.clazz.students[i].number)){
+                 var poll = new Object()
+                 poll.studentNumber = this.data.clazz.students[i].number
+                 poll.studentName = this.data.clazz.students[i].name
+                 poll.options = []
+                 section.pollArray.push(poll)
+             }
+          }
+          pollArray.push(section)
       }
     }
 
