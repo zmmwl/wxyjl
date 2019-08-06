@@ -1,6 +1,6 @@
 <view class="section">
   <view class="section__title">{{activity.activityName}}</view>
-  <picker id="student1" bindchange="bindPickerChange" range="{{array}}">
+  <picker id="student1" bindchange="bindPickerChange" range-key="name" range="{{array}}" mode="selector">
     <view class="picker" >
       QQ
     </view>

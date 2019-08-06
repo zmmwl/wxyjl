@@ -46,7 +46,7 @@ Page({
 
     pollArray: null,
     
-    array: ['美国', '中国', '巴西', '日本'],
+    array: [{ "id": "1", "name": "QQ" }, { "id": "2", "name": "玛奇朵" }],
     index: 0,
   },
 
@@ -227,12 +227,5 @@ Page({
   bindPickerChange: function (e) {
     console.log('picker发送选择改变，携带值为', e)
     console.log('zmm: ', e.currentTarget)
-  },
-  bindPickerTap: function (e) {
-    console.log('picker tap event: ', e)
-    this.setData({
-      array: ["zmm", "wl"]
-    })
-
   }
 })
