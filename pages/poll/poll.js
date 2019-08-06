@@ -64,8 +64,8 @@ Page({
     var pollArray = new Array()
     if (this.data.displayMode == "S"){
 
-      var option = new Object()
-      option.pollArray = new Array()
+      var section = new Object()
+      section.pollArray = new Array()
 
       if(this.data.displayNoPoll){
         //学生列表-显示未选择学生
@@ -79,7 +79,7 @@ Page({
           }else{
             poll.options = []
           }
-          option.pollArray[i] = poll
+          section.pollArray[i] = poll
         }
       }else{
         //学生列表-不显示未选择学生
@@ -88,23 +88,23 @@ Page({
           poll.studentNumber = this.data.polls[i].studentNumber
           poll.studentName = this.data.polls[i].studentName
           poll.options = this.data.polls[i].options
-          option.pollArray[i] = poll
+          section.pollArray[i] = poll
         }
       }
 
-      pollArray[0] = option
+      pollArray[0] = section
 
     } else { //按选项显示
-      var opMap = new Map()
+      var sectionMap = new Map()
       for (var i = 0; i < this.data.activity.options.length; i++) {
-        var option = new Object()
-        option.option = this.data.activity.options[i]
-        option.id = this.data.activity.options[i].id
-        option.name = this.data.optionsMap.get(this.data.activity.options[i].id)
-        option.pollArray = new Array()
-        opMap.set(option.id,option)
+        var section = new Object()
+        section.option = this.data.activity.options[i]
+        section.id = this.data.activity.options[i].id
+        section.name = this.data.optionsMap.get(this.data.activity.options[i].id)
+        section.pollArray = new Array()
+        sectionMap.set(section.id,section)
 
-        pollArray[i] = option
+        pollArray[i] = section
       }
 
       for (var i = 0; i < this.data.polls.length; i++) {
@@ -115,7 +115,7 @@ Page({
           poll.studentName = this.data.polls[i].studentName
           poll.options = [this.data.polls[i].options[j]]
 
-          opMap.get(this.data.polls[i].options[j].id).pollArray.push(poll)
+          sectionMap.get(this.data.polls[i].options[j].id).pollArray.push(poll)
         }
 
       }
