@@ -29,10 +29,9 @@ Page({
         "activityId": "1",
         "studentNumber": "1",
         "studentName": "QQ",
-        "options": [
-          { "id": "1", "voter": { "openid": "Tyler", "nickname": "Tyler", "avatarUrl": "https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eolwNR2YeZ15iaFwlUTPticlgScBQ3B0sVL5WeossnGPedY5cpzDl2Oa4n2DvyVLCBictr302en5uRng/132" } },
-          { "id": "2", "voter": { "openid": "Tyler", "nickname": "Tyler", "avatarUrl": "https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eolwNR2YeZ15iaFwlUTPticlgScBQ3B0sVL5WeossnGPedY5cpzDl2Oa4n2DvyVLCBictr302en5uRng/132" } }
-        ]
+        "options": "1", 
+        "voter": { "openid": "Tyler", "nickname": "Tyler", "avatarUrl": "https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eolwNR2YeZ15iaFwlUTPticlgScBQ3B0sVL5WeossnGPedY5cpzDl2Oa4n2DvyVLCBictr302en5uRng/132" }
+        
       }
     ],
 
@@ -56,13 +55,13 @@ Page({
   onLoad: function (options) {
     this.buildStudentsMap()
     this.buildOptionsMap()
-    this.buildPollArray()
+    this.buildPollVOArray()
   },
 
-  buildPollArray: function(){
+  buildPollVOArray: function(){
     // console.log("zmm pollList is: "+this.data.pollList)
     var pollArray = new Array()
-    if (this.data.displayMode == "S"){
+    if (this.data.activity.activityType == "0"){
 
       var section = new Object()
       section.pollArray = new Array()
