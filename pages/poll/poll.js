@@ -68,17 +68,20 @@ Page({
 
       if(this.data.displayNoPoll){
         //学生列表-显示未选择学生
+        var map = new Map()
         for(var i=0; i<this.data.clazz.students; i++){
-          var poll = new Object()
-          poll.studentNumber = this.data.clazz.students[i].number
-          poll.studentName = this.data.clazz.students[i].name
-          if (pollStudentMap.get(poll.studentNumber)){
-            var polled = pollStudentMap.get(poll.studentNumber)
-            poll.options = polled.options
-          }else{
-            poll.options = []
+          var pollVO = new Object()
+          pollVO.studentNumber = this.data.clazz.students[i].number
+          pollVO.studentName = this.data.clazz.students[i].name
+          pollVO.options = []
+          section.pollArray[i] = pollVO
+          map.set(pollVO.studentNumber,pollVO)
+        }
+        for (var i = 0; i < this.data.polls; i++) {
+          var pollVO = map.get(this.data.polls[i].studentNumber)
+          if(pollVO){
+             pollVO.options.push(this.data.polls[i])
           }
-          section.pollArray[i] = poll
         }
       }else{
         //学生列表-不显示未选择学生
