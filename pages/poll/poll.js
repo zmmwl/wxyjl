@@ -41,7 +41,6 @@ Page({
 
     studentsMap: null,
     optionsMap: null,
-    pollStudentMap: null,
 
     pollArray: null,
     
@@ -130,16 +129,6 @@ Page({
 
   },
 
-  buildPollStudentMap: function () {
-    if (this.data.polls) {
-      var map = new Map()
-      for (var i = 0; i < this.data.polls.length; i++) {
-        map.set(this.data.polls[i].studentNumber, this.data.polls[i])
-      }
-      this.data.pollStudentMap = map
-    }
-
-  },
 
   buildOptionsMap: function () {
     if (this.data.activity) {
