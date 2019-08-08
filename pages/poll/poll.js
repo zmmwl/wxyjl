@@ -63,6 +63,7 @@ Page({
 
       var section = new Object()
       section.pollArray = new Array()
+      pollArray[0] = section
 
       if(this.data.displayNoPoll){
         //学生列表-显示未选择学生
@@ -91,8 +92,6 @@ Page({
           section.pollArray.push(pollVO)
         }
       }
-
-      pollArray[0] = section
 
     } else { //按选项显示
       var sectionMap = new Map()
