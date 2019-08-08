@@ -29,7 +29,7 @@ Page({
         "activityId": "1",
         "studentNumber": "1",
         "studentName": "QQ",
-        "options": "1", 
+        "optionid": "1", 
         "voter": { "openid": "Tyler", "nickname": "Tyler", "avatarUrl": "https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eolwNR2YeZ15iaFwlUTPticlgScBQ3B0sVL5WeossnGPedY5cpzDl2Oa4n2DvyVLCBictr302en5uRng/132" }
         
       }
@@ -74,7 +74,7 @@ Page({
           pollVO.studentNumber = this.data.clazz.students[i].number
           pollVO.studentName = this.data.clazz.students[i].name
           pollVO.options = []
-          section.pollArray[i] = pollVO
+          section.pollArray.push(pollVO)
           map.set(pollVO.studentNumber,pollVO)
         }
         for (var i = 0; i < this.data.polls; i++) {
@@ -86,11 +86,11 @@ Page({
       }else{
         //学生列表-不显示未选择学生
         for (var i = 0; i < this.data.polls; i++) {
-          var poll = new Object()
-          poll.studentNumber = this.data.polls[i].studentNumber
-          poll.studentName = this.data.polls[i].studentName
-          poll.options = this.data.polls[i].options
-          section.pollArray[i] = poll
+          var pollVO = new Object()
+          pollVO.studentNumber = this.data.polls[i].studentNumber
+          pollVO.studentName = this.data.polls[i].studentName
+          pollVO.options=[this.data.polls[i]]
+          section.pollArray.push(pollVO)
         }
       }
 
@@ -106,38 +106,21 @@ Page({
         section.pollArray = new Array()
         sectionMap.set(section.id,section)
 
-        pollArray[i] = section
+        pollArray.push(section)
       }
 
       for (var i = 0; i < this.data.polls.length; i++) {
-        for (var j = 0; j < this.data.polls[i].options; j++){
 
-          var poll = new Object()
-          poll.studentNumber = this.data.polls[i].studentNumber
-          poll.studentName = this.data.polls[i].studentName
-          poll.options = [this.data.polls[i].options[j]]
+          var pollVO = new Object()
+          pollVO.studentNumber = this.data.polls[i].studentNumber
+          pollVO.studentName = this.data.polls[i].studentName
+          pollVO.options = [this.data.polls[i]]
 
-          sectionMap.get(this.data.polls[i].options[j].id).pollArray.push(poll)
-        }
-
-      }
-
-      if (this.data.displayNoPoll) {
-          var section = new Object()
-          section.option = null
-          section.id = null
-          section.name = "未选择"
-          section.pollArray = new Array()
-          for (var i = 0; i < this.data.clazz.students.length; i++){
-             if(!this.data.pollStudentMap.get( this.data.clazz.students[i].number)){
-                 var poll = new Object()
-                 poll.studentNumber = this.data.clazz.students[i].number
-                 poll.studentName = this.data.clazz.students[i].name
-                 poll.options = []
-                 section.pollArray.push(poll)
-             }
+          var section=sectionMap.get(pollVO.options[0].optionid)
+          if(section){
+            section.pollArray.push(pollVO)
           }
-          pollArray.push(section)
+
       }
     }
 
