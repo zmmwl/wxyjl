@@ -1,5 +1,18 @@
-<view class="section">
-  <view class="section__title">{{activity.activityName}}</view>
+<view >
+  <view class="title">{{activity.activityName}}</view>
+  <view wx:for="{{pollArray}}" wx:for-index="sectionIndex"  wx:for-item="section" 
+        data-sectionIndex="{{sectionIndex}}">
+    <view class="section" hover-class="section-hover">{{section.name}}
+    
+    </view>
+    
+    <view wx:for="{{section.pollArray}}" wx:for-index="pollIndex" wx:for-item="pollVO"
+        data-sectionIndex="{{sectionIndex}}" data-pollIndex="pollIndex">
+      {{pollVO.studentNumber}}: {{pollVO.studentName}}
+    </view>
+  </view>
+
+
   <picker id="student1" bindchange="bindPickerChange" range-key="name" range="{{array}}" mode="selector">
     <view class="picker" >
       QQ

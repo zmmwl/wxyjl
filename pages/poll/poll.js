@@ -19,7 +19,7 @@ Page({
       "activityType": "0", //0:签名接龙，1：单选接龙，2：多选接龙
       "classId": "1",
       "createDate": "2019-08-01 12:00:00",
-      "options": [{ "id": "1", "name": "参加" }, { "id": "2", "name": "不参加" }],
+      "options": [{ "id": "1", "name": "确认接种疫苗" }, { "id": "2", "name": "不接种疫苗" }],
       "deletedOptions": ["2"],
       "owner": "Tyler"
     },
@@ -64,19 +64,22 @@ Page({
     if (this.data.activity.activityType == "0"){
 
       var section = new Object()
-      section.pollArray = new Array()
       pollArray[0] = section
 
-      if(this.data.displayNoPoll){
+      section.id = this.data.activity.options[0].id
+      section.name = this.data.activity.options[0].name
+      section.pollArray = new Array()
+
+      if (this.data.displayNoPoll) {
         //学生列表-显示未选择学生
         var map = new Map()
-        for(var i=0; i<this.data.clazz.students; i++){
+        for (var i = 0; i < this.data.clazz.students.length; i++) {
           var pollVO = new Object()
           pollVO.studentNumber = this.data.clazz.students[i].number
           pollVO.studentName = this.data.studentsMap.get(pollVO.studentNumber)
           pollVO.options = []
           section.pollArray.push(pollVO)
-          map.set(pollVO.studentNumber,pollVO)
+          map.set(pollVO.studentNumber, pollVO)
         }
         for (var i = 0; i < this.data.polls; i++) {
           var pollVO = map.get(this.data.polls[i].studentNumber)
@@ -99,9 +102,8 @@ Page({
       var sectionMap = new Map()
       for (var i = 0; i < this.data.activity.options.length; i++) {
         var section = new Object()
-        section.option = this.data.activity.options[i]
         section.id = this.data.activity.options[i].id
-        section.name = this.data.optionsMap.get(this.data.activity.options[i].id)
+        section.name = this.data.activity.options[i].name
         section.pollArray = new Array()
         sectionMap.set(section.id,section)
 
@@ -126,6 +128,8 @@ Page({
     this.setData({
       pollArray: pollArray
     })
+
+    console.log(pollArray)
 
   },
 
@@ -206,7 +210,7 @@ Page({
     var pickerIndex = e.detail.index
     var student = this.data.clazz.students[pickerIndex]
     
-  }
+  },
 
 
 
