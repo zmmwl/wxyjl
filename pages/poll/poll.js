@@ -28,7 +28,6 @@ Page({
         "id": "xxx",
         "activityId": "1",
         "studentNumber": "1",
-        "studentName": "QQ",
         "optionid": "1", 
         "voter": { "openid": "Tyler", "nickname": "Tyler", "avatarUrl": "https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eolwNR2YeZ15iaFwlUTPticlgScBQ3B0sVL5WeossnGPedY5cpzDl2Oa4n2DvyVLCBictr302en5uRng/132" }
         
@@ -71,7 +70,7 @@ Page({
         for(var i=0; i<this.data.clazz.students; i++){
           var pollVO = new Object()
           pollVO.studentNumber = this.data.clazz.students[i].number
-          pollVO.studentName = this.data.clazz.students[i].name
+          pollVO.studentName = this.data.studentsMap.get(pollVO.studentNumber)
           pollVO.options = []
           section.pollArray.push(pollVO)
           map.set(pollVO.studentNumber,pollVO)
@@ -87,7 +86,7 @@ Page({
         for (var i = 0; i < this.data.polls; i++) {
           var pollVO = new Object()
           pollVO.studentNumber = this.data.polls[i].studentNumber
-          pollVO.studentName = this.data.polls[i].studentName
+          pollVO.studentName = this.data.studentsMap.get(pollVO.studentNumber)
           pollVO.options=[this.data.polls[i]]
           section.pollArray.push(pollVO)
         }
@@ -112,7 +111,7 @@ Page({
 
           var pollVO = new Object()
           pollVO.studentNumber = this.data.polls[i].studentNumber
-          pollVO.studentName = this.data.polls[i].studentName
+          pollVO.studentName = this.data.studentsMap.get(pollVO.studentNumber)
           pollVO.options = [this.data.polls[i]]
 
           var section=sectionMap.get(pollVO.options[0].optionid)
