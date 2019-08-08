@@ -42,6 +42,8 @@ Page({
     optionsMap: null,
 
     pollArray: null,
+
+    
     
     array: [{ "id": "1", "name": "QQ" }, { "id": "2", "name": "玛奇朵" }],
     index: 0,
@@ -196,6 +198,20 @@ Page({
   onShareAppMessage: function () {
 
   },
+
+  bindSectionPickerChange: function(e){
+    var target = e.currentTarget
+    var optionIndex = target.getOptionIndex()
+    var optionid = target.getOptionid()
+    var pickerIndex = e.detail.index
+    var student = this.data.clazz.students[pickerIndex]
+    
+  }
+
+
+
+
+
   bindPickerChange: function (e) {
     console.log('picker发送选择改变，携带值为', e)
     console.log('zmm: ', e.currentTarget)
