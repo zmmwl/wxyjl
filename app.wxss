@@ -1,11 +1,10 @@
 /**app.wxss**/
-
-/* .container{
-    display: flex;
-    flex-direction:column;
-    align-items: center;
-    background-color:#b3d4db;
-} */
+page {
+  background-color: #F8F8F8;
+  height: 100%;
+  font-size: 32rpx;
+  line-height: 1.6;
+}
 
 .container {
   height: 100%;
@@ -18,10 +17,3 @@
   background-color:  #F8F8F8;
 } 
 
-
-page {
-  background-color: #F8F8F8;
-  height: 100%;
-  font-size: 32rpx;
-  line-height: 1.6;
-}

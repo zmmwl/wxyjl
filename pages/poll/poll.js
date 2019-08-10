@@ -64,7 +64,9 @@ Page({
     if (this.data.activity.activityType == "0"){
 
       var section = new Object()
-      pollArray[0] = section
+      pollArray.push(section)
+      pollArray.push(section)
+
 
       section.id = this.data.activity.options[0].id
       section.name = this.data.activity.options[0].name
@@ -81,15 +83,15 @@ Page({
           section.pollArray.push(pollVO)
           map.set(pollVO.studentNumber, pollVO)
         }
-        for (var i = 0; i < this.data.polls; i++) {
+        for (var i = 0; i < this.data.polls.length; i++) {
           var pollVO = map.get(this.data.polls[i].studentNumber)
-          if(pollVO){
+          if (pollVO) {
              pollVO.options.push(this.data.polls[i])
           }
         }
       }else{
         //学生列表-不显示未选择学生
-        for (var i = 0; i < this.data.polls; i++) {
+        for (var i = 0; i < this.data.polls.length; i++) {
           var pollVO = new Object()
           pollVO.studentNumber = this.data.polls[i].studentNumber
           pollVO.studentName = this.data.studentsMap.get(pollVO.studentNumber)
