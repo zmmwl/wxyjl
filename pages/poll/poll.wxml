@@ -7,8 +7,7 @@
 
   <view class="index-bd">
     <view class="kind-list">
-      <block wx:for="{{pollArray}}" wx:for-index="sectionIndex"  wx:for-item="section" wx:key="section.id"
-            data-sectionIndex="{{sectionIndex}}">
+      <block wx:for="{{pollArray}}" wx:for-index="sectionIndex"  wx:for-item="section" wx:key="section.id">
         <view class="kind-list-item">
 
                 <view class="kind-list-item-hd">
@@ -18,13 +17,23 @@
                 
                 <view class="kind-list-item-bd-show">
                   <view class="navigator-box-show">
-                    <block wx:for="{{section.pollArray}}" wx:for-index="pollIndex" wx:for-item="pollVO"
-                        data-sectionIndex="{{sectionIndex}}" data-pollIndex="pollIndex">
+                    <block wx:for="{{section.pollArray}}" wx:for-index="pollIndex" wx:for-item="pollVO">
 
-                        <view class="navigator">
-                          <view class="navigator-text">{{pollVO.studentNumber}}: {{pollVO.studentName}}</view>
-                          <image class="userinfo-avatar" src="{{pollVO.options[0].voter.avatarUrl}}" mode="cover"></image>
-                          <image class="kind-list-img " src="/images/trash.png"></image>
+                        <view class="navigator" hover-class="navigator-hover"
+                              data-sectionindex="{{sectionIndex}}" 
+                              data-pollindex="{{pollIndex}}"
+                              bindtap="bindPollTap"
+                        >
+                          <view class="navigator-text">{{pollVO.studentNumber}}、{{pollVO.studentName}}</view>
+                          <block wx:for="{{pollVO.options}}" 
+                                 wx:for-index="voterIndex" 
+                                 wx:for-item="voter">
+                              <image class="userinfo-avatar" 
+                                    src="{{voter.voter.avatarUrl}}" 
+                                    mode="cover"
+                                    ></image>
+                          </block>
+                          <!-- <image class="kind-list-img " src="/images/trash.png"></image> -->
                         </view>
                     </block>
                   </view>

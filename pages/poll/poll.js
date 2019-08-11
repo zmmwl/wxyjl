@@ -1,4 +1,7 @@
 // pages/poll/poll.js
+
+const app = getApp()
+
 Page({
 
   /**
@@ -64,7 +67,6 @@ Page({
     if (this.data.activity.activityType == "0"){
 
       var section = new Object()
-      pollArray.push(section)
       pollArray.push(section)
 
 
@@ -221,5 +223,62 @@ Page({
   bindPickerChange: function (e) {
     console.log('picker发送选择改变，携带值为', e)
     console.log('zmm: ', e.currentTarget)
+  },
+
+  bindPollTap: function (e) {
+    console.log("bindPollTap: ", e)
+    console.log("bindPollTap: ", e.currentTarget.dataset.sectionindex)
+    console.log("bindPollTap: ", e.currentTarget.dataset.pollindex)
+    console.log("bindPollTap: ", this.data.pollArray)
+
+    var section = this.data.pollArray[e.currentTarget.dataset.sectionindex]
+    var pollVO = section.pollArray[e.currentTarget.dataset.pollindex]
+    var poll = null
+    var openid = app.globalData.openid
+    var deleteVOIndex = -1
+    if (pollVO.options.length>0){
+      for (var i = 0; i < pollVO.options.length; i++) {
+        if (pollVO.options[i].voter.openid == openid){
+          poll = pollVO.options[i]
+          deleteVOIndex = i
+          break
+        }
+      }
+    }
+    if (deleteVOIndex >= 0){
+      console.log("zmm: delete poll")
+      var deleteIndex = -1
+      for(var i=0;i<this.data.polls.length;i++){
+        if (poll.id == this.data.polls[i].id){
+          deleteIndex = i
+        }
+      }
+
+      this.data.polls.splice(deleteIndex,1)
+      pollVO.options.splice(deleteVOIndex,1)
+
+      this.setData({
+        pollArray: this.data.pollArray
+      })
+    } else {
+      poll = {}
+      poll.id = "2"
+      poll.activityId = this.data.activity.id
+      poll.studentNumber = pollVO.getstudentNumber
+      poll.optionid = section.id
+      poll.voter = {}
+      poll.voter.openid = openid
+      poll.voter.nickname = app.globalData.userInfo.nickname
+      poll.voter.avatarUrl = app.globalData.userInfo.avatarUrl
+
+      this.data.polls.push(poll)
+      pollVO.options.push(poll)
+
+      this.setData({
+        pollArray: this.data.pollArray
+      })
+    }
+    
   }
+
 })
