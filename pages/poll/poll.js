@@ -208,12 +208,21 @@ Page({
   },
 
   bindSectionPickerChange: function(e){
-    var target = e.currentTarget
-    var optionIndex = target.getOptionIndex()
-    var optionid = target.getOptionid()
+    var sectionIndex = e.currentTarget.dataset.sectionindex
+    
     var pickerIndex = e.detail.index
     var student = this.data.clazz.students[pickerIndex]
     
+    var  poll = {}
+      poll.id = "2"
+      poll.activityId = this.data.activity.id
+      poll.studentNumber = pollVO.getstudentNumber
+      poll.optionid = section.id
+      poll.voter = {}
+      poll.voter.openid = openid
+      poll.voter.nickname = app.globalData.userInfo.nickname
+      poll.voter.avatarUrl = app.globalData.userInfo.avatarUrl
+
   },
 
 
