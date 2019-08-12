@@ -209,14 +209,14 @@ Page({
 
   bindSectionPickerChange: function(e){
     var sectionIndex = e.currentTarget.dataset.sectionindex
-    
+    var section = this.data.pollArray[e.currentTarget.dataset.sectionindex]
     var pickerIndex = e.detail.index
     var student = this.data.clazz.students[pickerIndex]
     
     var  poll = {}
       poll.id = "2"
       poll.activityId = this.data.activity.id
-      poll.studentNumber = pollVO.getstudentNumber
+      poll.studentNumber = student.number
       poll.optionid = section.id
       poll.voter = {}
       poll.voter.openid = openid
