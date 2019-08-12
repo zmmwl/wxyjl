@@ -38,7 +38,7 @@ Page({
       console.log("zmm: index before wx.getUserInfo")
       wx.getUserInfo({
         success: res => {
-          console.log("zmm: index wx.getUserInfo success")
+          console.log("zmm: index wx.getUserInfo success: ", res.userInfo)
           app.globalData.userInfo = res.userInfo
           this.setData({
             userInfo: res.userInfo,

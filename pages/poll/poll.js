@@ -28,11 +28,11 @@ Page({
     },
     polls:[
       {
-        "id": "xxx",
+        "id": 1,
         "activityId": "1",
         "studentNumber": "1",
         "optionid": "1", 
-        "voter": { "openid": "Tyler", "nickname": "Tyler", "avatarUrl": "https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eolwNR2YeZ15iaFwlUTPticlgScBQ3B0sVL5WeossnGPedY5cpzDl2Oa4n2DvyVLCBictr302en5uRng/132" }
+        "voter": { "openid": "Tyler", "nickName": "Tyler", "avatarUrl": "https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eolwNR2YeZ15iaFwlUTPticlgScBQ3B0sVL5WeossnGPedY5cpzDl2Oa4n2DvyVLCBictr302en5uRng/132" }
         
       }
     ],
@@ -50,6 +50,7 @@ Page({
     
     array: [{ "id": "1", "name": "QQ" }, { "id": "2", "name": "玛奇朵" }],
     index: 0,
+    pollid:2,
   },
 
   /**
@@ -66,7 +67,7 @@ Page({
     var pollArray = new Array()
     if (this.data.activity.activityType == "0"){
 
-      var section = new Object()
+      var section = {}
       pollArray.push(section)
 
 
@@ -78,7 +79,7 @@ Page({
         //学生列表-显示未选择学生
         var map = new Map()
         for (var i = 0; i < this.data.clazz.students.length; i++) {
-          var pollVO = new Object()
+          var pollVO = {}
           pollVO.studentNumber = this.data.clazz.students[i].number
           pollVO.studentName = this.data.studentsMap.get(pollVO.studentNumber)
           pollVO.votes = []
@@ -94,7 +95,7 @@ Page({
       }else{
         //学生列表-不显示未选择学生
         for (var i = 0; i < this.data.polls.length; i++) {
-          var pollVO = new Object()
+          var pollVO = {}
           pollVO.studentNumber = this.data.polls[i].studentNumber
           pollVO.studentName = this.data.studentsMap.get(pollVO.studentNumber)
           pollVO.votes=[this.data.polls[i]]
@@ -105,7 +106,7 @@ Page({
     } else { //按选项显示
       var sectionMap = new Map()
       for (var i = 0; i < this.data.activity.options.length; i++) {
-        var section = new Object()
+        var section = {}
         section.id = this.data.activity.options[i].id
         section.name = this.data.activity.options[i].name
         section.pollArray = new Array()
@@ -116,7 +117,7 @@ Page({
 
       for (var i = 0; i < this.data.polls.length; i++) {
 
-          var pollVO = new Object()
+          var pollVO = {}
           pollVO.studentNumber = this.data.polls[i].studentNumber
           pollVO.studentName = this.data.studentsMap.get(pollVO.studentNumber)
           pollVO.votes = [this.data.polls[i]]
@@ -208,21 +209,35 @@ Page({
   },
 
   bindSectionPickerChange: function(e){
-    var sectionIndex = e.currentTarget.dataset.sectionindex
     var section = this.data.pollArray[e.currentTarget.dataset.sectionindex]
-    var pickerIndex = e.detail.index
+    var pickerIndex = e.detail.value
+    console.log("section is: ", section)
     var student = this.data.clazz.students[pickerIndex]
-    
-    var  poll = {}
-      poll.id = "2"
-      poll.activityId = this.data.activity.id
-      poll.studentNumber = student.number
-      poll.optionid = section.id
-      poll.voter = {}
-      poll.voter.openid = openid
-      poll.voter.nickname = app.globalData.userInfo.nickname
-      poll.voter.avatarUrl = app.globalData.userInfo.avatarUrl
+    var openid = app.globalData.openid
 
+    var  poll = {}
+    poll.id = this.data.pollid++
+    poll.activityId = this.data.activity.id
+    poll.studentNumber = student.number
+    poll.optionid = section.id
+    poll.voter = {}
+    poll.voter.openid = openid
+    poll.voter.nickname = app.globalData.userInfo.nickname
+    poll.voter.avatarUrl = app.globalData.userInfo.avatarUrl
+    
+    var pollVO = {}
+    pollVO.studentNumber = student.number
+    pollVO.studentName = student.name
+    pollVO.votes = []
+    pollVO.votes.push(poll)
+
+    this.data.polls.push(poll)
+    section.pollArray.push(pollVO)
+    
+
+    this.setData({
+      pollArray: this.data.pollArray
+    })
   },
 
 
@@ -235,10 +250,6 @@ Page({
   },
 
   bindPollTap: function (e) {
-    console.log("bindPollTap: ", e)
-    console.log("bindPollTap: ", e.currentTarget.dataset.sectionindex)
-    console.log("bindPollTap: ", e.currentTarget.dataset.pollindex)
-    console.log("bindPollTap: ", this.data.pollArray)
 
     var section = this.data.pollArray[e.currentTarget.dataset.sectionindex]
     var pollVO = section.pollArray[e.currentTarget.dataset.pollindex]
@@ -255,7 +266,7 @@ Page({
       }
     }
     if (deleteVOIndex >= 0){
-      console.log("zmm: delete poll")
+      console.log("delete poll")
       var deleteIndex = -1
       for(var i=0;i<this.data.polls.length;i++){
         if (poll.id == this.data.polls[i].id){
@@ -263,29 +274,51 @@ Page({
         }
       }
 
+      console.log("deleteIndex: ", deleteIndex)
+      console.log("deleteVOIndex: ", deleteVOIndex)
+
+
       this.data.polls.splice(deleteIndex,1)
       pollVO.votes.splice(deleteVOIndex,1)
+      if (this.data.displayMode == "O" && pollVO.votes.length == 0) {
+        section.pollArray.splice(e.currentTarget.dataset.pollindex,1)
+      }
+
+
+      for (var i = 0; i < this.data.polls.length; i++) {
+        console.log("this.data.polls[", i, "]: ", this.data.polls[i])
+      }
 
       this.setData({
         pollArray: this.data.pollArray
       })
     } else {
-      poll = {}
-      poll.id = "2"
-      poll.activityId = this.data.activity.id
-      poll.studentNumber = pollVO.getstudentNumber
-      poll.optionid = section.id
-      poll.voter = {}
-      poll.voter.openid = openid
-      poll.voter.nickname = app.globalData.userInfo.nickname
-      poll.voter.avatarUrl = app.globalData.userInfo.avatarUrl
+      if (this.data.displayMode == "S") { //如果点击的接龙不是本人的，只有按学生列表的模式下才会增加接龙
+        console.log("create poll")
+        poll = {}
+        poll.id = this.data.pollid++
+        poll.activityId = this.data.activity.id
+        poll.studentNumber = pollVO.studentNumber
+        poll.optionid = section.id
+        poll.voter = {}
+        poll.voter.openid = openid
+        poll.voter.nickName = app.globalData.userInfo.nickName
+        poll.voter.avatarUrl = app.globalData.userInfo.avatarUrl
 
-      this.data.polls.push(poll)
-      pollVO.votes.push(poll)
+        console.log("adding poll: ", poll)
+        this.data.polls.push(poll)
+        pollVO.votes.push(poll)
 
-      this.setData({
-        pollArray: this.data.pollArray
-      })
+
+        for (var i = 0; i < this.data.polls.length; i++) {
+          console.log("this.data.polls[", i, "]: ", this.data.polls[i])
+        }
+
+        this.setData({
+          pollArray: this.data.pollArray
+        })
+
+      }
     }
     
   }

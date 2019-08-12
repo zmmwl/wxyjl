@@ -12,7 +12,14 @@
 
                 <view class="kind-list-item-hd">
                   <view class="kind-list-text">{{section.name}}</view>
-                  <image class="kind-list-img " src="/images/nav.png"></image>
+
+                  <picker bindchange="bindSectionPickerChange" 
+                          range-key="name" 
+                          range="{{clazz.students}}" 
+                          data-sectionindex="{{sectionIndex}}" 
+                          mode="selector">
+                    <image class="kind-list-img " src="/images/nav.png"></image>
+                  </picker>
                 </view>
                 
                 <view class="kind-list-item-bd-show">
@@ -25,11 +32,11 @@
                               bindtap="bindPollTap"
                         >
                           <view class="navigator-text">{{pollVO.studentNumber}}、{{pollVO.studentName}}</view>
-                          <block wx:for="{{pollVO.options}}" 
+                          <block wx:for="{{pollVO.votes}}" 
                                  wx:for-index="voterIndex" 
-                                 wx:for-item="voter">
+                                 wx:for-item="vote">
                               <image class="userinfo-avatar" 
-                                    src="{{voter.voter.avatarUrl}}" 
+                                    src="{{vote.voter.avatarUrl}}" 
                                     mode="cover"
                                     ></image>
                           </block>
