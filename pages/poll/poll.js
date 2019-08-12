@@ -81,14 +81,14 @@ Page({
           var pollVO = new Object()
           pollVO.studentNumber = this.data.clazz.students[i].number
           pollVO.studentName = this.data.studentsMap.get(pollVO.studentNumber)
-          pollVO.options = []
+          pollVO.votes = []
           section.pollArray.push(pollVO)
           map.set(pollVO.studentNumber, pollVO)
         }
         for (var i = 0; i < this.data.polls.length; i++) {
           var pollVO = map.get(this.data.polls[i].studentNumber)
           if (pollVO) {
-             pollVO.options.push(this.data.polls[i])
+             pollVO.votes.push(this.data.polls[i])
           }
         }
       }else{
@@ -97,7 +97,7 @@ Page({
           var pollVO = new Object()
           pollVO.studentNumber = this.data.polls[i].studentNumber
           pollVO.studentName = this.data.studentsMap.get(pollVO.studentNumber)
-          pollVO.options=[this.data.polls[i]]
+          pollVO.votes=[this.data.polls[i]]
           section.pollArray.push(pollVO)
         }
       }
@@ -119,7 +119,7 @@ Page({
           var pollVO = new Object()
           pollVO.studentNumber = this.data.polls[i].studentNumber
           pollVO.studentName = this.data.studentsMap.get(pollVO.studentNumber)
-          pollVO.options = [this.data.polls[i]]
+          pollVO.votes = [this.data.polls[i]]
 
           var section=sectionMap.get(pollVO.options[0].optionid)
           if(section){
@@ -245,10 +245,10 @@ Page({
     var poll = null
     var openid = app.globalData.openid
     var deleteVOIndex = -1
-    if (pollVO.options.length>0){
-      for (var i = 0; i < pollVO.options.length; i++) {
-        if (pollVO.options[i].voter.openid == openid){
-          poll = pollVO.options[i]
+    if (pollVO.votes.length>0){
+      for (var i = 0; i < pollVO.votes.length; i++) {
+        if (pollVO.votes[i].voter.openid == openid){
+          poll = pollVO.votes[i]
           deleteVOIndex = i
           break
         }
@@ -264,7 +264,7 @@ Page({
       }
 
       this.data.polls.splice(deleteIndex,1)
-      pollVO.options.splice(deleteVOIndex,1)
+      pollVO.votes.splice(deleteVOIndex,1)
 
       this.setData({
         pollArray: this.data.pollArray
@@ -281,7 +281,7 @@ Page({
       poll.voter.avatarUrl = app.globalData.userInfo.avatarUrl
 
       this.data.polls.push(poll)
-      pollVO.options.push(poll)
+      pollVO.votes.push(poll)
 
       this.setData({
         pollArray: this.data.pollArray
